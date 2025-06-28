@@ -5,22 +5,37 @@
  */
 
 
-// Get Polylux from the official package repository
 #import "@preview/polylux:0.4.0" as polylux
 
+// colors for MedUni Wien CD
 #import "colors.typ" as muw_colors
 
+// MedUni Wien logo in dark blue and white for the footer
 #let muw-logo-white(..args) = image("./../img/MedUni-Wien-white.svg", ..args)
 #let muw-logo-blue(..args) = image("./../img/MedUni-Wien.svg", ..args)
 #let muw_logos = (muw-logo-blue, muw-logo-white)
 
+// box with roundet corners (tl and br with 15%)
 #let muw-box(radius: 15%, ..args) = box(radius: (top-left: radius, bottom-right: radius), clip: true, ..args)
 
-
+/**
+ * Footer for the presentation
+ *
+ * on the left bottom side is the logo (depending on the footer color in dark blue or white)
+ *
+ * the color is always dark blue (only white if the slide itself is dark blue)
+ *
+ * in the middle the title of the presentation and the organisation is shown
+ *
+ * on the right the current page number is display (if page number > 1) and
+ *  optional date is being displayed
+ */
 #let custom-footer(
   logos: muw_logos,
   footer-title: [Titel der Präsentation ODER des Vortragenden],
-  orga: [Organisationseinhait]
+  orga: [Organisationseinheit],
+  show-date: false,
+  page-numbering: (n, total) => { [ #strong[#n] / #total ] },
 ) = {
   let logos = if logos != none {logos} else {muw_logos}
 
@@ -34,11 +49,10 @@
       0mm  // page.margin.left  .left .right .x .y oder so ...
     }
 
-    // if paper is 16-9 its perfect
     place(bottom, dx: -current-margin)[
       #box(
         fill: if page.fill == muw_colors.dunkelblau { white } else { muw_colors.dunkelblau },
-        height: 100% + 3mm,
+        height: 100% + 1mm,
         width: 100% + 2 * current-margin
       )[
   
@@ -46,11 +60,11 @@
         
         #stack(dir: ltr, spacing: 1fr,
           [
-            #box(inset: (x: 3mm))[
+            #box(inset: (x: 1mm))[
               #if page.fill != muw_colors.dunkelblau {
-                logos.last()(height: 15mm)
+                logos.last()(height: 10mm)
               } else {
-                logos.first()(height: 15mm)
+                logos.first()(height: 10mm)
               }
             ]
           ],
@@ -68,20 +82,16 @@
               set text(size: 15pt)
               set align(right)
               box(inset: (x: 4mm))[
-              #stack(
-                dir: ttb, spacing: 3mm,
-                datetime.today().display("[day]. [month repr:long] [year]")
-                //time.display("h:[hour repr:12][period]")
-                , [
-                  #counter(page).at(here()).first() / #counter(page).final().first()
-                  // #calc.round( eval( str(counter(page).at(here()).first()) +
-                // "/" +  str(counter(page).final().first()) + "* 100" ) , digits: 2)%   
-                
-                ]
-              ) 
-            ]
-                
-                          
+                #stack(
+                  dir: ttb, spacing: 3mm,
+                  if show-date == true {
+                    text(size: 10pt)[#datetime.today().display("[day]. [month repr:short] [year]")]
+                  },
+                  [
+                    #page-numbering(counter(page).at(here()).first(), counter(page).final().first())
+                  ]
+                ) 
+              ]                          
             }
           ],
         )    
@@ -90,6 +100,8 @@
   }
 }
 
+
+// --- define slides ----------------------------------------------------------
 
 #let slide(..args) = {
   polylux.slide(..args)
@@ -128,55 +140,54 @@
 }
 
 
-// --- template -------------------------------------------------------------------
+// --- template ---------------------------------------------------------------
 
 #let slides(
-  title: [Titel],
-  series: [series],
-  author: [Univ. Prof. Dr. Maximilian Mustermann],
+  title: [Titel mit blauem Hintergrund],
+  series: [Titel der Präsentation ODER des Vortragenden],
   klinik: [Universitätsklinik für XY],
-  footer-title: [Titel der Präsentation ODER des Vortragenden],
-  orga: [Organisationseinhait],
+  orga: [Organisationseinheit],
+
+  author: [Univ. Prof. Dr. Maximilian Mustermann],
+  email: none,  // link("mailto:n12345678@students.meduniwien.ac.at"),
+  
   paper: "presentation-16-9",
   toc: false,
+  show-date: true,
   logos: none,
-  //(  // logo in both dunkelblau and white (for normal footer and titlepage ...)
-  //  image("images/MedUni-Wien.svg"),
-  //  image("images/MedUni-Wien-white.svg")
-  //),
 
+  // page-numbering: (n, total) => { [ #strong[#n] / #total ] },
+  
+  // if you want to be fancy
+  //  display the page number as a fraction in %
+  page-numbering: (n, total) => {[
+      #calc.round(
+        eval(
+          str(counter(page).at(here()).first()) + "/" +
+          str(counter(page).final().first()) + "* 100"
+        ),
+        digits: 3
+      )%
+  ]},
 
-  // TODO ...
-  page-numbering: (n, total) => {
-        text(size: 0.75em, strong[#n.first()])
-        text(size: 0.5em, [ \/ #total.first()])
-    },
-
-    
   body
+
 ) = {
   set page(
     paper: paper,
     footer: custom-footer(
       logos: logos,
-      footer-title: footer-title,
-      orga: orga
+      footer-title: series,
+      orga: orga,
+      show-date: show-date,
+      page-numbering: page-numbering
     )
-
-    
-    // margin: (left: 5mm),  // TODO fix footer for custom (non auto/default) margins
-    // numbering: "1/1"
   )
 
-  // TODO:
-  //  Primärschrift: Danton
-  //  Systemschrift: Georgia
-  //  Sekundärschrift: Akkurat Pro
-  //  Systemschrift: Lucida Sans
+  set text(size: 25pt)
+  show math.equation: set text(size: 25pt)
   
-  set text(size: 25pt, font: "Lora")  // "Lato"
-  show math.equation: set text(font: ("STIX Two Math", "New Computer Modern Math"), size: 25pt)
-  
+  // title slide
   blue-slide[
     #[
       #set align(horizon)
@@ -184,10 +195,12 @@
       = #title
       
       #author \
-      #klinik
+      #klinik \
+      #if email != none { text(size: 10pt, email) }
     ]
   ]
 
+  // show toc if param is set
   if toc == true{
     slide()[
       #outline()

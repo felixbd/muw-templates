@@ -4,6 +4,7 @@ pkgs.mkShell {
   name="dev-env";
   buildInputs = with pkgs; [
     typst
+    gnumake
   ];
 
   shellHook = ''
