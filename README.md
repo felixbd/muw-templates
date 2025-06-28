@@ -1,4 +1,5 @@
-# Medical University of Vienna, `typst` Community Templates
+# `muw-community-templates`
+## Medical University of Vienna
 
 This repository hosts community maintained unofficial templates for the Medical University of Vienna. Currently, it includes a presentation template built on the [`polylux`](https://typst.app/universe/package/polylux/) beamer style engine for Typst.
 
@@ -28,19 +29,49 @@ This repository hosts community maintained unofficial templates for the Medical 
 ## Example Usage
 
 ```typst
-#import "presentation.typ": slides
-#import "colors.typ": muw-colors
+#import "@preview/muw-community-templates:0.1.0" as muw_presentation
+#import muw_presentation: *
 
-slides(
-  title: [Meine Präsentation],
-  series: [Vortrag im Rahmen des Seminars],
-  klinik: [Universitätsklinik für Innere Medizin III],
-  orga: [Medizinische Universität Wien],
+#set text(lang: "de")
+
+#polylux.enable-handout-mode(false)
+
+#let muw-logo-white(..args) = muw-box(fill: gray, figure(box([Hello], ..args)))
+#let muw-logo-blue(..args) = muw-box(fill: gray, figure(box([Hallo], ..args)))
+#let custom-muw-logos = (muw-logo-white, muw-logo-blue)
+
+#show: slides.with(
+  title: [Titel mit blauem Hintergrund],
+  series: [Titel der Präsentation ODER des Vortragenden],
+  klinik: [Universitätsklinik für XY],
+  orga: [Organisationseinheit],
   author: [Univ. Prof. Dr. Maximilian Mustermann],
-  email: [n12345678@students.meduniwien.ac.at],
+  email: none,  // link("mailto:n12345678@students.meduniwien.ac.at"),
+  paper: "presentation-16-9",
+  toc: false,
   show-date: true,
+  logos: none,  // custom-muw-logos,
+  page-numbering: (n, total) => { [ #strong[#n] / #total ] },
 )
 
+
+// Use #slide to create a slide and style it using your favourite Typst functions
+#slide[
+  #set align(horizon)
+  = Very minimalist slides
+
+  #lorem(10)
+
+  #muw-box(
+    height: 25mm,
+    fill: muw_colors.dunkelblau,
+    text(fill: white)[
+      ~ Hier ist eine MedUni Wien box ... ~ \
+      ~ Hier könnte auch ein bild sein ... ~
+    ]
+  )
+
+]
 // your slides go here
 ```
 
