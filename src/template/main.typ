@@ -1,7 +1,6 @@
-#import "@preview/muw-community-templates:0.1.0" as muw_presentation
-// #import "./../presentation.typ" as muw_presentation
-
-#import muw_presentation: *
+#import "@preview/muw-community-templates:0.1.0" as muw-presentation
+// #import "./../presentation.typ" as muw-presentation
+#import muw-presentation: *
 
 #set text(lang: "de")
 
