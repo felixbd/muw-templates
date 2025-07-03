@@ -29,7 +29,7 @@ This repository hosts community maintained unofficial templates for the Medical 
 ## Example Usage
 
 ```typst
-#import "@preview/muw-community-templates:0.1.0" as muw_presentation
+#import "@preview/muw-community-templates:0.1.1" as muw_presentation
 #import muw_presentation: *
 
 #set text(lang: "de")
@@ -47,11 +47,11 @@ This repository hosts community maintained unofficial templates for the Medical 
   orga: [Organisationseinheit],
   author: [Univ. Prof. Dr. Maximilian Mustermann],
   email: none,  // link("mailto:n12345678@students.meduniwien.ac.at"),
-  paper: "presentation-16-9",
+  paper: "presentation-16-9",  // 4-3
   toc: false,
   show-date: true,
   logos: none,  // custom-muw-logos,
-  page-numbering: (n, total) => { [ #strong[#n] / #total ] },
+  page-numbering: (i, j) => { [ #strong[#i] / #j ] },
 )
 
 
@@ -72,6 +72,7 @@ This repository hosts community maintained unofficial templates for the Medical 
   )
 
 ]
+
 // your slides go here
 ```
 
@@ -79,13 +80,13 @@ This repository hosts community maintained unofficial templates for the Medical 
 >
 > As the correct fonts are not freely available, they are not supported in this template.
 >
->>> Locally, Typst uses your installed system fonts or embedded fonts in the CLI, which are Libertinus Serif, New Computer Modern,
->>> New Computer Modern Math, and DejaVu Sans Mono. In addition, you can use the `--font-path` argument or `TYPST_FONT_PATHS` environment
->>> variable to add directories that should be scanned for fonts. The priority is: `--font-paths` > system fonts > embedded fonts.
->>> Run typst fonts to see the fonts that Typst has discovered on your system. Note that you can pass the `--ignore-system-fonts` parameter
->>> to the CLI to ensure Typst won't search for system fonts.
+> Locally, Typst uses your installed system fonts or embedded fonts in the CLI, which are Libertinus Serif, New Computer Modern,
+> New Computer Modern Math, and DejaVu Sans Mono. In addition, you can use the `--font-path` argument or `TYPST_FONT_PATHS` environment
+> variable to add directories that should be scanned for fonts. The priority is: `--font-paths` > system fonts > embedded fonts.
+> Run typst fonts to see the fonts that Typst has discovered on your system. Note that you can pass the `--ignore-system-fonts` parameter
+> to the CLI to ensure Typst won't search for system fonts.
 >
->> see: https://typst.app/docs/reference/text/text/
+> see: https://typst.app/docs/reference/text/text/
 >
 >
 > - Primärschrift: Danton

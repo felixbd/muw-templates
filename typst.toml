@@ -1,6 +1,6 @@
 [package]
 name = "muw-community-templates"
-version = "0.1.0"
+version = "0.1.1"
 entrypoint = "src/presentation.typ"
 authors = ["Felix D"]
 repository = "https://github.com/felixbd/muw-templates"

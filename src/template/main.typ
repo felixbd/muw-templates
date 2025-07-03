@@ -1,5 +1,4 @@
-#import "@preview/muw-community-templates:0.1.0" as muw-presentation
-// #import "./../presentation.typ" as muw-presentation
+#import "@preview/muw-community-templates:0.1.1" as muw-presentation
 #import muw-presentation: *
 
 #set text(lang: "de")
@@ -20,7 +19,7 @@
   author: [Univ. Prof. Dr. Maximilian Mustermann],
   email: none,  // link("mailto:n12345678@students.meduniwien.ac.at"),
 
-  paper: "presentation-16-9",
+  paper: "presentation-16-9",  // 4-3",
   toc: false,
   show-date: true,
   
@@ -28,15 +27,15 @@
   // for example for the Comprehensive Center for AI in Medicine (CAIM)
   logos: none, // custom-muw-logos,
 
-  page-numbering: (n, total) => { [ #strong[#n] / #total ] },
+  page-numbering: (current, total) => { [ #strong[#current] / #total ] },
   
   // if you want to be fancy
   //  display the page number as a fraction in %
-  /*page-numbering: (n, total) => {[
+  /* page-numbering: (current, total) => {[
     #calc.round(
       eval(
-        str(counter(page).at(here()).first()) + "/" +
-        str(counter(page).final().first()) + "* 100"
+        str(current) + "/" +
+        str(total) + "* 100"
       ),
       digits: 3
     )%
@@ -44,7 +43,7 @@
 )
 
 
-
+// === main content ===========================================================
 
 
 // Use #slide to create a slide and style it using your favourite Typst functions
@@ -79,8 +78,6 @@
         - vwx
 
 ]
-
-
 
 
 #slide[
@@ -125,7 +122,7 @@
     
     // #heading(outlined: false)[Nun eine kurze Demonstration]
 
-    #text(size: 120pt, weight: "bold")[or use `color-slide`]
+    #text(size: 130pt, weight: "bold")[#v(-2cm) or use `color-slide`]
 ]
 
 
@@ -135,9 +132,8 @@
 
 
 
-
 #slide[
-  == syde by side text
+  == side by side text
 
   #polylux.toolbox.side-by-side[
     #lorem(7)
@@ -158,24 +154,17 @@
 ]
 
 
+#slide[
+  = https://typst.app/universe/
 
-// small insertion of euler and his great identity (tau is better than pi!!)
+  if you want to present more specific things such as physical formulas, chemical equations, system-describing diagrams
 
-#[
-  #import "@preview/gru:0.1.0": gru
-  
-  #set text(size: 17pt)
-  #show math.equation: set text(size: 17pt)
-  #set page(footer: none) // turn off footer
-
-
-  #show: gru.with(last-content: [$ \ \ forall phi in ZZ: \ "e"^(i phi tau ) = 1 $ ])
-  
-  $  "e"^(i pi) = -1  \  tau := 2 pi  \  "e"^(i tau) = 1 $
-  
-  $ \ forall psi in ZZ: \ psi "mod" 2 eq.triple 0 \ => "e"^(i psi pi ) = 1 $
+  - chem: https://github.com/Typsium
+  - phy: https://github.com/Leedehai/typst-physics
+  - etc.
 
 ]
+
 
 
 
