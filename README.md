@@ -3,6 +3,10 @@
 
 This repository hosts community maintained unofficial templates for the Medical University of Vienna. Currently, it includes a presentation template built on the [`polylux`](https://typst.app/universe/package/polylux/) beamer style engine for Typst.
 
+![thumbnail.png](thumbnail-p5.png)
+
+![thumbnail-p5.png](./thumbnail-p5.png)
+
 ## Contents
 
 * **`colors.typ`**: Defines the official color scheme according to the university corporate design.
@@ -28,53 +32,13 @@ This repository hosts community maintained unofficial templates for the Medical 
 
 ## Example Usage
 
-```typst
-#import "@preview/muw-community-templates:0.1.1" as muw_presentation
-#import muw_presentation: *
+The easiest way is to search for this template in typst.app webapp and select it,
+which will create a template for you in the project.
 
-#set text(lang: "de")
+or see:
+- [src/presentation.typ](./src/presentation.typ)
+- [src/template/main.typ](./src/template/main.typ)
 
-#polylux.enable-handout-mode(false)
-
-#let muw-logo-white(..args) = muw-box(fill: gray, figure(box([Hello], ..args)))
-#let muw-logo-blue(..args) = muw-box(fill: gray, figure(box([Hallo], ..args)))
-#let custom-muw-logos = (muw-logo-white, muw-logo-blue)
-
-#show: slides.with(
-  title: [Titel mit blauem Hintergrund],
-  series: [Titel der Präsentation ODER des Vortragenden],
-  klinik: [Universitätsklinik für XY],
-  orga: [Organisationseinheit],
-  author: [Univ. Prof. Dr. Maximilian Mustermann],
-  email: none,  // link("mailto:n12345678@students.meduniwien.ac.at"),
-  paper: "presentation-16-9",  // 4-3
-  toc: false,
-  show-date: true,
-  logos: none,  // custom-muw-logos,
-  page-numbering: (i, j) => { [ #strong[#i] / #j ] },
-)
-
-
-// Use #slide to create a slide and style it using your favourite Typst functions
-#slide[
-  #set align(horizon)
-  = Very minimalist slides
-
-  #lorem(10)
-
-  #muw-box(
-    height: 25mm,
-    fill: muw_colors.dunkelblau,
-    text(fill: white)[
-      ~ Hier ist eine MedUni Wien box ... ~ \
-      ~ Hier könnte auch ein bild sein ... ~
-    ]
-  )
-
-]
-
-// your slides go here
-```
 
 > [!WARNING]
 >
@@ -96,13 +60,9 @@ This repository hosts community maintained unofficial templates for the Medical 
 >
 
 
-
 refs:
 - https://www.meduniwien.ac.at/web/studierende/service-center/meduni-wien-vorlagen/
 - https://typst.app/
 - https://github.com/typst/packages/tree/main/packages/preview/
 - https://github.com/typst/packages/blob/main/docs/manifest.md
-
-
-
 

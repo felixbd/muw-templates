@@ -1,6 +1,7 @@
 // see: https://www.meduniwien.ac.at/web/fileadmin/content/kommunikation/vorlagen/220314_Farbdefinitionen.pdf
 
-// see: file:///home/felix/Downloads/220303_MedUni_Styleguide.pdf (pp. 14)
+// see: https://www.meduniwien.ac.at/web/fileadmin/content/kommunikation/vorlagen/220303_MedUni_Styleguide.pdf
+// (pp. 14)
 
 #let dunkelblau = rgb("#111d4e")  //  17/29/78 100/85/0/58
 #let hellblau   = rgb("#5fb4e5")  // 95/180/229 55/5/5/0

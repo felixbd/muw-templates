@@ -11,7 +11,7 @@ EXCLUDE_TOML := $(shell awk '/^\s*exclude\s*=/,/^\s*\]/' $(TOML) \
 	| tr '\n' ' ')
 
 # Additional exclusions: all dotfiles and dotdirs
-EXCLUDE_DOTFILES := --exclude='.*' --exclude='.*/'
+EXCLUDE_DOTFILES := --exclude='.*' --exclude='.*/' --exclude='?.?.?/'
 
 # Combine all exclusions
 EXCLUDES := $(EXCLUDE_TOML) $(EXCLUDE_DOTFILES) --exclude=$(TOML) --exclude=$(RELEASE_DIR)
@@ -26,7 +26,7 @@ release: t
 	@echo -e "Packaging version $(VERSION)...\n\nTOML: $(TOML)\nNAME: $(NAME)\nVERSION: $(VERSION)\n"
 	rm -rf $(RELEASE_DIR)
 	mkdir -p $(RELEASE_DIR)
-	rsync -av --progress ./ $(RELEASE_DIR)/ $(EXCLUDES)
+	rsync -avr --progress ./ $(RELEASE_DIR)/ $(EXCLUDES)
 	@echo -e "\nRelease ready in $(RELEASE_DIR)!"
 
 
@@ -56,3 +56,6 @@ o: open
 open:
 	# xdg-open ./main.pdf
 	firefox ./main.pdf
+
+check:
+	nix run github:typst/package-check -- check

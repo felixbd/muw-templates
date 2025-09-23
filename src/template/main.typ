@@ -1,4 +1,6 @@
-#import "@preview/muw-community-templates:0.1.1" as muw-presentation
+// #import "@preview/muw-community-templates:0.1.0" as muw-presentation
+#import "./../presentation.typ" as muw-presentation
+
 #import muw-presentation: *
 
 #set text(lang: "de")
@@ -27,19 +29,6 @@
   // for example for the Comprehensive Center for AI in Medicine (CAIM)
   logos: none, // custom-muw-logos,
 
-  page-numbering: (current, total) => { [ #strong[#current] / #total ] },
-  
-  // if you want to be fancy
-  //  display the page number as a fraction in %
-  /* page-numbering: (current, total) => {[
-    #calc.round(
-      eval(
-        str(current) + "/" +
-        str(total) + "* 100"
-      ),
-      digits: 3
-    )%
-  ]},*/
 )
 
 
@@ -48,34 +37,22 @@
 
 // Use #slide to create a slide and style it using your favourite Typst functions
 #slide[
-  #set align(horizon)
   = Very minimalist slides
 
   #lorem(10)
+
+  - https://polylux.dev/book/
+  - https://polylux.dev/book/getting-started/getting-started.html
 
   #muw-box(
     height: 25mm,
     fill: muw_colors.dunkelblau,
     text(fill: white)[
+      #set align(horizon)
       ~ Hier ist eine MedUni Wien box ... ~ \
       ~ Hier könnte auch ein bild sein ... ~
     ]
   )
-
-]
-
-
-#slide[
-  == a random list
-
-  - abc
-  - def
-    - ghi
-    - jkl
-      - mno
-      - pqr
-        - stu
-        - vwx
 
 ]
 
@@ -152,6 +129,36 @@
   ]
 
 ]
+
+
+#slide[
+  #polylux.toolbox.big[BIG]
+]
+
+
+#slide[
+  #set par(leading: .1em)
+  #polylux.toolbox.big[
+    Lorem ipsum dolor sit amet, consectetur \ adipiscing elit, sed do eiusmod \
+    tempor incididunt ut labore et dolore \ magnam aliquam quaerat.
+  ]
+]
+
+
+#slide[
+  == a random list
+
+  - abc
+  - def
+    - ghi
+    - jkl
+      - mno
+      - pqr
+        - stu
+        - vwx
+
+]
+
 
 
 #slide[

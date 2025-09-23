@@ -30,6 +30,7 @@
  * on the right the current page number is display (if page number > 1) and
  *  optional date is being displayed
  */
+
 #let custom-footer(
   logos: muw_logos,
   footer-title: [Titel der Präsentation ODER des Vortragenden],
@@ -40,63 +41,56 @@
   let logos = if logos != none {logos} else {muw_logos}
 
   context {
-    set text(fill: if page.fill != muw_colors.dunkelblau { white } else { muw_colors.dunkelblau })
+    set text(fill: if page.fill != muw_colors.dunkelblau { white }
+                    else { muw_colors.dunkelblau })
+    
+    box(
+      fill: if page.fill == muw_colors.dunkelblau { white } else { muw_colors.dunkelblau },
+      height: 100% + 1mm,
+      width: 100%,
+    )[
 
-    let current-margin = if page.margin == auto {
-      (2.5 / 21) * calc.min(page.height, page.width)       
-    } else {
-      // TODO: scheint bisschen komplexer zu sein...
-      0mm  // page.margin.left  .left .right .x .y oder so ...
-    }
-
-    place(bottom, dx: -current-margin)[
-      #box(
-        fill: if page.fill == muw_colors.dunkelblau { white } else { muw_colors.dunkelblau },
-        height: 100% + 1mm,
-        width: 100% + 2 * current-margin
-      )[
-  
-        #set align(center + horizon) 
-        
-        #stack(dir: ltr, spacing: 1fr,
-          [
-            #box(inset: (x: 1mm))[
-              #if page.fill != muw_colors.dunkelblau {
-                logos.last()(height: 10mm)
-              } else {
-                logos.first()(height: 10mm)
-              }
-            ]
-          ],
-          [
-            #{
-              set align(left)
-              stack(dir: ttb, spacing: 3mm,
-                text(size: 10pt, footer-title),
-                text(size: 12pt, weight: "semibold", orga)
-              )
+      #set align(center + horizon) 
+      
+      #stack(dir: ltr, spacing: 1fr,
+        [
+          #box(inset: (x: 1mm))[
+            #if page.fill != muw_colors.dunkelblau {
+              logos.last()(height: 10mm)
+            } else {
+              logos.first()(height: 10mm)
             }
-          ],
-          [ 
-            #if here().page() > 1 {
-              set text(size: 15pt)
-              set align(right)
-              box(inset: (x: 4mm))[
-                #stack(
-                  dir: ttb, spacing: 3mm,
-                  if show-date == true {
-                    text(size: 10pt)[#datetime.today().display("[day]. [month repr:short] [year]")]
-                  },
-                  [
-                    #page-numbering(counter(page).at(here()).first(), counter(page).final().first())
-                  ]
-                ) 
-              ]                          
-            }
-          ],
-        )    
-      ]
+          ]
+        ],
+        [
+          #{
+            set align(left)
+            stack(dir: ttb, spacing: 3mm,
+              text(size: 10pt, footer-title),
+              text(size: 12pt, weight: "semibold", orga)
+            )
+          }
+        ],
+        [ 
+          #if here().page() > 1 {
+            set text(size: 15pt)
+            set align(right)
+            box(inset: (x: 4mm))[
+              #stack(
+                dir: ttb, spacing: 3mm,
+                if show-date == true {
+                  text(size: 10pt)[#datetime.today().display("[day]. [month repr:short] [year]")]
+                },
+                [
+                  #page-numbering(counter(page).at(here()).first(), counter(page).final().first())
+                ]
+              ) 
+            ]                          
+          }
+        ],
+      )    
     ]
+    
   }
 }
 
@@ -152,36 +146,41 @@
   email: none,  // link("mailto:n12345678@students.meduniwien.ac.at"),
   
   paper: "presentation-16-9",
+  margin: 2cm,
   toc: false,
   show-date: true,
   logos: none,
 
-  // page-numbering: (n, total) => { [ #strong[#n] / #total ] },
+  page-numbering: (n, total) => { [ #strong[#n] / #total ] },
   
-  // if you want to be fancy
-  //  display the page number as a fraction in %
-  page-numbering: (n, total) => {[
-      #calc.round(
-        eval(
-          str(counter(page).at(here()).first()) + "/" +
-          str(counter(page).final().first()) + "* 100"
-        ),
-        digits: 3
-      )%
-  ]},
+  // page-numbering: (n, total) => {[
+  //     #calc.round(
+  //       eval(
+  //         str(counter(page).at(here()).first()) + "/" +
+  //         str(counter(page).final().first()) + "* 100"
+  //       ),
+  //       digits: 3
+  //     )%
+  // ]},
 
   body
 
 ) = {
   set page(
     paper: paper,
-    footer: custom-footer(
-      logos: logos,
-      footer-title: series,
-      orga: orga,
-      show-date: show-date,
-      page-numbering: page-numbering
-    )
+    margin: margin,
+
+    footer: align(bottom,
+      polylux.toolbox.full-width-block(
+      )[
+        #custom-footer(
+          logos: logos,
+          footer-title: series,
+          orga: orga,
+          show-date: show-date,
+          page-numbering: page-numbering
+        )  
+    ]),    
   )
 
   set text(size: 25pt)
@@ -200,9 +199,8 @@
     ]
   ]
 
-  // show toc if param is set
-  if toc == true{
-    slide()[
+  if toc == true {
+    slide[
       #outline()
     ]
   }
