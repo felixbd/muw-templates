@@ -3,7 +3,7 @@
 
 This repository hosts community maintained unofficial templates for the Medical University of Vienna. Currently, it includes a presentation template built on the [`polylux`](https://typst.app/universe/package/polylux/) beamer style engine for Typst.
 
-![thumbnail.png](thumbnail-p5.png)
+![thumbnail.png](thumbnail.png)
 
 ![thumbnail-p5.png](./thumbnail-p5.png)
 
