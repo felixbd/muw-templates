@@ -13,13 +13,13 @@ EXCLUDE_DOTFILES := --exclude='.*' --exclude='?.?.?/' --exclude='.*/'
 
 EXCLUDES := $(EXCLUDE_TOML) $(EXCLUDE_DOTFILES) --exclude=$(TOML) --exclude=$(RELEASE_DIR)
 
-.PHONY: all release clean
+.PHONY: all clean
 
-all: compile thumbnail release 
+all: compile thumbnail
 
 r: release
 
-release: t
+release:
 	@echo -e "Packaging version $(VERSION)...\n\nTOML: $(TOML)\nNAME: $(NAME)\nVERSION: $(VERSION)\n"
 	rm -rf $(RELEASE_DIR)
 	mkdir -p $(RELEASE_DIR)
