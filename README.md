@@ -19,7 +19,7 @@ but a template for **dissertations/theses** is in the pipeline.
 
 ## Example Usage
 
-It is recommended to use this project in the https://typst.app web app as a template. This will give you a sample project containing a presentation with the unofficial muw template, and everything else is self-documenting.
+It is recommended to use this project in the https://typst.app web app as a template. This will generate a sample project containing a presentation with the unofficial muw template, which is self-documenting.
 
 or see:
 - [src/presentation.typ](./src/presentation.typ)
