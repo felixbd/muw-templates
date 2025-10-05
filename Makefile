@@ -3,22 +3,19 @@ NAME := $(shell grep -E '^\s*name\s*=' $(TOML) | sed 's/.*=\s*"\(.*\)"/\1/')
 VERSION := $(shell grep -E '^\s*version\s*=' $(TOML) | sed 's/.*=\s*"\(.*\)"/\1/')
 RELEASE_DIR := $(VERSION)
 
-# Extract user-defined exclusions from typst.toml
-EXCLUDE_TOML := $(shell awk '/^\s*exclude\s*=/,/^\s*\]/' $(TOML) \
+EXCLUDE_TOML := $(shell grep exclude $(TOML) \
 	| grep -oE '"[^"]+"' \
 	| sed 's/"//g' \
 	| sed 's/^/--exclude=/' \
 	| tr '\n' ' ')
 
-# Additional exclusions: all dotfiles and dotdirs
-EXCLUDE_DOTFILES := --exclude='.*' --exclude='.*/' --exclude='?.?.?/'
+EXCLUDE_DOTFILES := --exclude='.*' --exclude='?.?.?/' --exclude='.*/'
 
-# Combine all exclusions
 EXCLUDES := $(EXCLUDE_TOML) $(EXCLUDE_DOTFILES) --exclude=$(TOML) --exclude=$(RELEASE_DIR)
 
 .PHONY: all release clean
 
-all: release
+all: compile thumbnail release 
 
 r: release
 

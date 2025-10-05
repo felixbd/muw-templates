@@ -1,13 +1,7 @@
-/**
- * This is a beamer template for the Medical University of Vienna
- *
- * see: https://www.meduniwien.ac.at/web/studierende/service-center/meduni-wien-vorlagen/
- */
-
+// This is a beamer template for the Medical University of Vienna
 
 #import "@preview/polylux:0.4.0" as polylux
 
-// colors for MedUni Wien CD
 #import "colors.typ" as muw_colors
 
 // MedUni Wien logo in dark blue and white for the footer
@@ -18,80 +12,69 @@
 // box with roundet corners (tl and br with 15%)
 #let muw-box(radius: 15%, ..args) = box(radius: (top-left: radius, bottom-right: radius), clip: true, ..args)
 
-/**
- * Footer for the presentation
- *
- * on the left bottom side is the logo (depending on the footer color in dark blue or white)
- *
- * the color is always dark blue (only white if the slide itself is dark blue)
- *
- * in the middle the title of the presentation and the organisation is shown
- *
- * on the right the current page number is display (if page number > 1) and
- *  optional date is being displayed
- */
-
 #let custom-footer(
   logos: muw_logos,
   footer-title: [Titel der Präsentation ODER des Vortragenden],
   orga: [Organisationseinheit],
   show-date: false,
   page-numbering: (n, total) => { [ #strong[#n] / #total ] },
-) = {
-  let logos = if logos != none {logos} else {muw_logos}
+) = context {
+  let logos = if logos != none { logos } else { muw_logos }
 
-  context {
-    set text(fill: if page.fill != muw_colors.dunkelblau { white }
-                    else { muw_colors.dunkelblau })
-    
-    box(
-      fill: if page.fill == muw_colors.dunkelblau { white } else { muw_colors.dunkelblau },
-      height: 100% + 1mm,
-      width: 100%,
-    )[
-
-      #set align(center + horizon) 
-      
-      #stack(dir: ltr, spacing: 1fr,
-        [
-          #box(inset: (x: 1mm))[
-            #if page.fill != muw_colors.dunkelblau {
-              logos.last()(height: 10mm)
-            } else {
-              logos.first()(height: 10mm)
-            }
-          ]
-        ],
-        [
-          #{
-            set align(left)
-            stack(dir: ttb, spacing: 3mm,
-              text(size: 10pt, footer-title),
-              text(size: 12pt, weight: "semibold", orga)
-            )
+  set text(fill: if page.fill != muw_colors.dunkelblau { white }
+                  else { muw_colors.dunkelblau })
+  
+  box(
+    fill: if page.fill == muw_colors.dunkelblau { white }
+           else { muw_colors.dunkelblau },
+    height: 100% + .3mm
+  )[
+    #set align(center + horizon) 
+    #stack(dir: ltr, spacing: 1fr,
+      [
+        #box(inset: (x: 3mm))[
+          #if page.fill != muw_colors.dunkelblau {
+            logos.last()(height: 10mm)
+          } else {
+            logos.first()(height: 10mm)
           }
-        ],
-        [ 
-          #if here().page() > 1 {
-            set text(size: 15pt)
-            set align(right)
-            box(inset: (x: 4mm))[
-              #stack(
-                dir: ttb, spacing: 3mm,
-                if show-date == true {
-                  text(size: 10pt)[#datetime.today().display("[day]. [month repr:short] [year]")]
-                },
-                [
-                  #page-numbering(counter(page).at(here()).first(), counter(page).final().first())
+        ]
+      ],
+      [
+        #{
+          set align(left)
+          stack(dir: ttb, spacing: 3mm,
+            text(size: 10pt, footer-title),
+            text(size: 12pt, weight: "semibold", orga)
+          )
+        }
+      ],
+      [ 
+        #{
+          set text(size: 15pt)
+          set align(right)
+          box(inset: (x: 4mm, y: 3mm))[
+            #stack(
+              dir: ttb, spacing: 3mm,
+              if show-date == true {
+                text(size: 10pt)[
+                  #datetime.today().display("[day]. [month repr:short] [year]")
                 ]
-              ) 
-            ]                          
-          }
-        ],
-      )    
-    ]
-    
-  }
+              },
+              [
+                #if here().page() > 1 {
+                  page-numbering(
+                    counter(page).at(here()).first(),
+                    counter(page).final().first()
+                  )
+                }
+              ]
+            ) 
+          ]                          
+        }
+      ],
+    )    
+  ]
 }
 
 

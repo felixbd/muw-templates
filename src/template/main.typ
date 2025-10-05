@@ -71,7 +71,6 @@
 
   == Are you a radiologist or do you want to show a CT, MRI or X-ray image?
 
-
   #stack(dir: ltr, spacing: 1fr,
     [
       #v(3cm)
@@ -102,12 +101,15 @@
     #text(size: 130pt, weight: "bold")[#v(-2cm) or use `color-slide`]
 ]
 
-
 #color-slide(bg-fill: muw_colors.gruen)[
   hier in grün ...
 ]
 
+#color-slide(bg-fill: muw_colors.dunkelblau)[
+  #set text(fill: white)
 
+  und blau ...
+]
 
 #slide[
   == side by side text
@@ -159,8 +161,6 @@
 
 ]
 
-
-
 #slide[
   = https://typst.app/universe/
 
@@ -169,10 +169,7 @@
   - chem: https://github.com/Typsium
   - phy: https://github.com/Leedehai/typst-physics
   - etc.
-
 ]
-
-
 
 
 #slide[
